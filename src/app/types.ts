@@ -3,6 +3,7 @@ export type ModuleId =
   | 'beams'
   | 'frames'
   | 'trusses'
+  | 'combinations'
   | 'columns'
   | 'slabs'
   | 'foundations'

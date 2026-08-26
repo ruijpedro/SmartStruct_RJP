@@ -1,4 +1,4 @@
-# SmartStruct_RJP V27 Clean
+# SmartStruct_RJP V28 Clean
 
 Base limpa para novo repositório.
 
@@ -10,7 +10,7 @@ Base limpa para novo repositório.
 - GitHub Actions para WebApp + GitHub Pages
 - GitHub Actions para APK Android via Capacitor
 
-## Regra V27
+## Regra V28
 Os módulos ainda não migrados aparecem como **Em preparação** e não têm solvers fictícios.
 
 ## Primeiro arranque
@@ -22,3 +22,7 @@ Os módulos ainda não migrados aparecem como **Em preparação** e não têm so
 
 ## Nota técnica
 Os cálculos existentes nesta base são preliminares e destinados a estudo/validação do fluxo da aplicação. Não substituem dimensionamento regulamentar completo.
+
+
+## V28 Estruturas
+Módulos funcionais preliminares: Vigas, Pórticos, Treliças, Combinações, Pilares, Lajes, Sapatas e Muros. Os resultados simplificados destinam-se a estudo e pré-dimensionamento; as verificações regulamentares completas serão integradas por fases.
