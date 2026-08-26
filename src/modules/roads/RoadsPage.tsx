@@ -1,0 +1,3 @@
+export function RoadsPage() {
+  return <div className="page"><div className="pageTitle"><h1>Infraestruturas Viárias</h1><span>Estradas · Ciclovias · Rotundas</span></div><div className="roadGrid"><section className="panel"><h2>Estradas</h2><p>Estrutura preparada para traçado, perfis, terraplenagens, pavimentos e drenagem.</p></section><section className="panel"><h2>Ciclovias</h2><p>Tipologias, larguras, pendentes, cruzamentos e integração com a plataforma viária.</p></section><section className="panel"><h2>Rotundas</h2><p>Geometria, ilha central, anel circulatório, entradas, saídas e atravessamentos.</p></section></div></div>
+}
