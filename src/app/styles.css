@@ -66,3 +66,65 @@ html[data-theme="light"] body{background:#eef3f7;color:#172536}
 /* V47 hydraulic network designer */
 .hyd-tabs{grid-template-columns:repeat(6,1fr)}.card-title-row,.room-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.card-title-row button,.room-head button{background:#0b5564;color:#fff;border:1px solid #167c89;border-radius:8px;padding:7px 10px}.room-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.room-card{background:#0b1623;border:1px solid #263b50;border-radius:11px;padding:10px}.room-head input{background:#102536;color:#fff;border:1px solid #29445c;border-radius:7px;padding:7px;min-width:0}.room-head>input{width:45%}.room-head label{font-size:.7rem;color:#91a9bc}.room-head label input{width:52px}.room-fixtures{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:9px}.room-fixtures>div{display:flex;justify-content:space-between;align-items:center;gap:5px;color:#9db2c4;font-size:.72rem}.room-fixtures input{width:45px;background:#102536;color:#fff;border:1px solid #29445c;border-radius:6px;padding:5px}.network-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.network-svg{width:100%;max-height:270px}.reg-note{color:#8299ad;font-size:.72rem}
 @media(max-width:700px){.hyd-tabs{grid-template-columns:repeat(3,1fr)}.room-grid,.network-summary{grid-template-columns:1fr}.room-fixtures{grid-template-columns:1fr}.network-svg{min-width:620px}.network-designer .tech-card:last-of-type{overflow-x:auto}}
+
+/* V48 hydraulics pro */
+.hyd-tabs{grid-template-columns:repeat(8,minmax(92px,1fr));overflow-x:auto}.hyd-pro-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hyd-pro-grid>.tech-card:first-child{grid-column:1/-1}.reg-check{display:grid;gap:3px;border:1px solid #29445c;border-radius:9px;padding:9px;margin:7px 0;background:#0b1623}.reg-check span{font-size:.78rem;color:#a9bdcc}.reg-check small{font-size:.66rem;color:#738da1}.reg-check.ok b{color:#65d5ae}.reg-check.bad b{color:#ffb56b}.toggle-row{display:flex;align-items:center;gap:9px;margin-top:10px;color:#b8c8d5}.rule-list{color:#a9bdcc;line-height:1.65;padding-left:18px}
+@media(max-width:700px){.hyd-tabs{display:flex}.hyd-tabs button{min-width:112px}.hyd-pro-grid{grid-template-columns:1fr}.hyd-pro-grid>.tech-card:first-child{grid-column:auto}}
+
+/* V49 segment hydraulic design */
+.hyd-tabs{grid-template-columns:repeat(9,minmax(92px,1fr))}.segment-pin{max-width:330px;margin:10px 0}.segment-table{overflow-x:auto}.seg-head,.seg-row{display:grid;grid-template-columns:minmax(180px,1.8fr) repeat(8,minmax(72px,.65fr));gap:5px;min-width:900px;align-items:center}.seg-head{color:#7894a9;font-size:.68rem;padding:5px}.seg-row{border-top:1px solid #21384b;padding:6px 0;color:#b7c8d4;font-size:.75rem}.seg-row input,.seg-num,.drain-title input,.drain-title select{background:#0b1623;color:#fff;border:1px solid #29445c;border-radius:6px;padding:6px;min-width:0}.pass{color:#63d5ae}.warn{color:#ffad66}.drain-segments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.drain-segments article{background:#0b1623;border:1px solid #29445c;border-radius:10px;padding:10px}.drain-title{display:grid;grid-template-columns:1fr 110px;gap:6px;margin-bottom:8px}.drain-segments .compact-fields label{display:grid;gap:3px;color:#8fa7ba;font-size:.68rem}.seg-results{display:grid;gap:5px;margin-top:8px}.segment-svg{width:100%;min-width:700px}.segment-page .tech-card:last-child{overflow-x:auto}
+@media(max-width:700px){.drain-segments{grid-template-columns:1fr}}
+
+/* V50 Graphic Networks */
+.hyd-tabs{grid-template-columns:repeat(10,minmax(95px,1fr))}
+.editor-toolbar{display:grid;gap:9px}
+.mode-switch,.palette{display:flex;flex-wrap:wrap;gap:6px}
+.mode-switch button,.palette button{
+  border:1px solid #29485e;background:#0c1c29;color:#a8bdcb;
+  border-radius:8px;padding:8px 10px
+}
+.mode-switch button.active,.palette button.active{
+  border-color:#28c8c1;color:#28c8c1;background:#0e3038
+}
+.editor-toolbar p{margin:0;color:#8299ab;font-size:.75rem}
+.canvas-wrap{overflow:auto}
+.network-canvas{width:100%;min-width:720px;min-height:400px;touch-action:manipulation}
+.public-table{display:grid;gap:5px}
+.public-row{
+  display:grid;
+  grid-template-columns:minmax(180px,1.6fr) repeat(5,minmax(85px,.7fr));
+  gap:6px;align-items:center;background:#0b1623;border:1px solid #29445c;
+  border-radius:8px;padding:8px;font-size:.73rem
+}
+.public-row label{color:#8ea6b8}
+.public-row input{
+  width:58px;background:#102536;color:#fff;border:1px solid #31516a;
+  border-radius:5px;padding:4px;margin:0 4px
+}
+.public-rules{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:12px
+}
+.public-rules>b{grid-column:1/-1;color:#28c8c1}
+.public-rules span{
+  background:#0b1623;border-left:3px solid #2bc9c2;
+  padding:7px;color:#9db2c2;font-size:.72rem
+}
+.manhole-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.manhole-card{
+  display:grid;gap:6px;background:#0b1623;border:1px solid #29445c;
+  border-radius:9px;padding:10px;color:#9db2c2;font-size:.75rem
+}
+.manhole-card label{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.manhole-card input{
+  width:90px;background:#102536;color:#fff;border:1px solid #31516a;
+  border-radius:5px;padding:5px
+}
+@media(max-width:700px){
+  .public-row{grid-template-columns:1fr 1fr}
+  .public-rules,.manhole-grid{grid-template-columns:1fr}
+  .public-rules>b{grid-column:auto}
+}
+
+/* V51 public sewer profile */
+.profile-inputs,.profile-segments{display:grid;gap:6px;margin-top:10px}.profile-row{display:grid;grid-template-columns:90px repeat(3,1fr) 110px;gap:6px;align-items:center;background:#0b1623;border:1px solid #29445c;border-radius:8px;padding:7px}.profile-row input{background:#102536;color:#fff;border:1px solid #31516a;border-radius:5px;padding:5px;min-width:0}.profile-row label{display:flex;align-items:center;gap:4px;color:#88a1b4;font-size:.7rem}.profile-canvas{overflow-x:auto}.profile-canvas svg{width:100%;min-width:760px;min-height:390px}.profile-seg{display:grid;grid-template-columns:minmax(120px,1.5fr) repeat(7,minmax(75px,1fr));gap:5px;align-items:center;background:#0b1623;border:1px solid #29445c;border-radius:8px;padding:8px;color:#a9bdcb;font-size:.72rem}
+@media(max-width:700px){.profile-row{grid-template-columns:1fr 1fr}.profile-seg{grid-template-columns:1fr 1fr}}
