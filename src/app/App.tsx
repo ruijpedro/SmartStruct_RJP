@@ -5,7 +5,7 @@ import { Topbar } from '../ui/Topbar'
 import { DashboardPage } from '../modules/dashboard/DashboardPage'
 import { BeamsPage } from '../modules/structures/beams/BeamsPage'
 import { RoadsPage } from '../modules/roads/RoadsPage'
-import { ContainmentPage } from '../modules/containment/ContainmentPage'
+import ContainmentPage from '../modules/containment/ContainmentPage'
 import { SoilNailsPage, AnchorsPage, ShotcretePage, DrainageSystemsPage } from '../modules/containment/StabilizationPages'
 import { EarthPressurePage } from '../modules/geotechnics/EarthPressurePage'
 import { HydraulicsPage } from '../modules/hydraulics/HydraulicsPage'
@@ -16,6 +16,11 @@ import { ColumnsProPage } from '../modules/columnsPro'
 import { SlabsProPage } from '../modules/slabsPro'
 import { TrussesProPage } from '../modules/trussesPro'
 import { Structural2DEditor } from '../modules/structural2d'
+import { GeotechnicsProPage } from '../modules/geotechnicsPro'
+import { SlopesProPage } from '../modules/slopesPro'
+import { HydraulicsProPage } from '../modules/hydraulicsPro'
+import { RoadsProPage } from '../modules/roadsPro'
+import { StabilizationProPage } from '../modules/stabilizationPro'
 
 function Planned({ title }: { title: string }) {
   return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
@@ -31,8 +36,8 @@ export default function App() {
   let content = <Planned title={titles[active] ?? 'Módulo'} />
   if (active === 'dashboard') content = <DashboardPage onOpen={setActive}/>
   if (active === 'beams') content = <BeamsProPage/>
-  if (active === 'roads') content = <RoadsPage/>
-  if (active === 'hydraulics') content = <HydraulicsPage/>
+  if (active === 'roads') content = <RoadsProPage/>
+  if (active === 'hydraulics') content = <HydraulicsProPage/>
   if (active === 'frames') content = <Structural2DEditor/>
   if (active === 'trusses') content = <TrussesProPage/>
   if (active === 'combinations') content = <CombinationsPage/>
@@ -45,12 +50,12 @@ export default function App() {
   if (active === 'anchors') content = <AnchorsPage/>
   if (active === 'shotcrete') content = <ShotcretePage/>
   if (active === 'drainage') content = <DrainageSystemsPage/>
-  if (active === 'geotechnics') content = <GeotechnicsPage/>
+  if (active === 'geotechnics') content = <GeotechnicsProPage/>
   if (active === 'spt') content = <SptPage/>
   if (active === 'cpt') content = <CptPage/>
   if (active === 'bearing') content = <BearingCapacityPage/>
   if (active === 'settlements') content = <SettlementsPage/>
   if (active === 'earthpressure') content = <EarthPressurePage/>
-  if (active === 'slopes') content = <SlopesPage/>
+  if (active === 'slopes') content = <SlopesProPage/>
   return <div className="appShell"><Sidebar active={active} onSelect={setActive} open={menuOpen} onClose={() => setMenuOpen(false)}/><div className="mainShell"><Topbar onMenu={() => setMenuOpen(true)}/><main>{content}</main></div>{menuOpen && <button className="overlay" onClick={() => setMenuOpen(false)} aria-label="Fechar menu"/>}</div>
 }

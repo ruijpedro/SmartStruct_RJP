@@ -1,18 +1,42 @@
-import type {Model2D,MemberResult} from './types'
+import type {Model2D,MemberResult,StructuralLoad} from './types'
+
+function memberLength(m:Model2D,memberId:number){
+  const e=m.members.find(x=>x.id===memberId)
+  if(!e) return 0
+  const a=m.nodes.find(n=>n.id===e.a)!, b=m.nodes.find(n=>n.id===e.b)!
+  return Math.hypot(b.x-a.x,b.y-a.y)
+}
+
+export function equivalentGlobalLoads(m:Model2D){
+  let Fx=0,Fy=0,M=0
+  for(const l of m.loads){
+    if(l.kind==='node-force'){ Fx+=l.Fx||0; Fy+=l.Fy||0 }
+    else if(l.kind==='node-moment'){ M+=l.M||0 }
+    else{
+      const L=memberLength(m,l.member)
+      if(l.kind==='point') Fy-=Math.abs(l.P||0)
+      if(l.kind==='udl') Fy-=(l.q1||0)*L
+      if(l.kind==='triangular') Fy-=0.5*(l.q2||l.q1||0)*L
+      if(l.kind==='trapezoidal') Fy-=0.5*((l.q1||0)+(l.q2||0))*L
+      if(l.kind==='moment') M+=l.M||0
+    }
+  }
+  return {Fx,Fy,M}
+}
+
 export function analyseModel(m:Model2D){
-  const totalFx=m.nodes.reduce((s,n)=>s+(n.Fx||0),0)
-  const totalFy=m.nodes.reduce((s,n)=>s+(n.Fy||0),0)
+  const totals=equivalentGlobalLoads(m)
   const supported=m.nodes.filter(n=>n.support && n.support!=='free')
   const reactions=supported.map((n,i)=>({
     node:n.id,
-    Rx:i===0?-totalFx:0,
-    Ry:-totalFy/Math.max(supported.length,1)
+    Rx:i===0?-totals.Fx:0,
+    Ry:-totals.Fy/Math.max(supported.length,1),
+    M:n.support==='fixed' ? -totals.M/Math.max(supported.filter(x=>x.support==='fixed').length,1) : 0
   }))
   const members:MemberResult[]=m.members.map(e=>{
     const a=m.nodes.find(n=>n.id===e.a)!, b=m.nodes.find(n=>n.id===e.b)!
     const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy),angle=Math.atan2(dy,dx)
-    const loadProjection=((a.Fx||0)+(b.Fx||0))*Math.cos(angle)+((a.Fy||0)+(b.Fy||0))*Math.sin(angle)
-    return {id:e.id,L,angle:angle*180/Math.PI,axialApprox:-loadProjection/2}
+    return {id:e.id,L,angle:angle*180/Math.PI,axialApprox:0}
   })
-  return {totalFx,totalFy,reactions,members}
+  return {totalFx:totals.Fx,totalFy:totals.Fy,totalM:totals.M,reactions,members}
 }

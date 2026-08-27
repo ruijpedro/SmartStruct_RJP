@@ -18,3 +18,9 @@
 .editor-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:16px}.editor-svg{min-height:390px}.model-list{display:grid;gap:7px}.model-list button{text-align:left;background:#0d1726;border:1px solid #26374d;color:#cbd8e7;padding:9px;border-radius:9px}.model-list button.selected{border-color:#2dd4bf;background:#102d32}
 .result-grid.compact{grid-template-columns:repeat(2,1fr)}.member-table{display:grid;gap:7px}.member-table>div{display:grid;grid-template-columns:120px repeat(3,1fr);gap:10px;padding:9px;border-top:1px solid #22344d;color:#a9bad0}.member-table b{color:#e8f0f8}
 @media(max-width:900px){.editor-grid{grid-template-columns:1fr}.member-table>div{grid-template-columns:1fr 1fr}}
+/* V36 - apoios e cargas */
+.control-stack{display:grid;gap:18px}.support-palette,.load-palette{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.support-palette button,.load-palette button{background:#0d1726;border:1px solid #26374d;border-radius:9px;color:#b9cadc;padding:8px;display:grid;place-items:center;gap:4px;font-size:.68rem}
+.support-palette button.active,.load-palette button.active{border-color:#2dd4bf;background:#102d32;color:#fff}
+.primary-action{width:100%;margin-top:9px;background:#0f8b8d!important;border-color:#2dd4bf!important}
+@media(max-width:520px){.support-palette,.load-palette{grid-template-columns:repeat(2,minmax(0,1fr))}}
