@@ -1,28 +1,13 @@
-# SmartStruct_RJP V28 Clean
+# SmartStruct_RJP V31
 
-Base limpa para novo repositório.
+Ferramenta de apoio académico e técnico em Engenharia Civil.
 
-## Incluído de facto
-- Dashboard novo como Home real
-- Navegação responsiva WebApp/APK
-- Vigas: viga biapoiada com cargas G/Q/P, desenho SVG e resultados preliminares
-- Infraestruturas Viárias: estrutura inicial real para Estradas/Ciclovias/Rotundas
-- GitHub Actions para WebApp + GitHub Pages
-- GitHub Actions para APK Android via Capacitor
+## Módulos já funcionais nesta base
+- Estruturas: vigas, pórticos, treliças, pilares, lajes, sapatas e combinações (nível atual do projeto).
+- Geotecnia: parâmetros de solo, SPT, CPT/CPTu, capacidade de carga, assentamentos, impulsos de terras e taludes.
+- Contenção: muro em consola, betão armado, gravidade, gabiões e muro de Berlim.
+- Estabilização: pregagens, ancoragens, betão projetado e drenagem de taludes.
+- Hidráulica: canal trapezoidal por Manning e coletor circular preliminar.
+- Infraestruturas viárias: estradas, ciclovias, rotundas, terraplenagens e pavimentos.
 
-## Regra V28
-Os módulos ainda não migrados aparecem como **Em preparação** e não têm solvers fictícios.
-
-## Primeiro arranque
-1. Criar repositório novo no GitHub.
-2. Carregar o conteúdo desta pasta para a raiz.
-3. Em Settings > Pages escolher GitHub Actions (se necessário).
-4. Executar Build WebApp.
-5. Executar Build Android APK.
-
-## Nota técnica
-Os cálculos existentes nesta base são preliminares e destinados a estudo/validação do fluxo da aplicação. Não substituem dimensionamento regulamentar completo.
-
-
-## V28 Estruturas
-Módulos funcionais preliminares: Vigas, Pórticos, Treliças, Combinações, Pilares, Lajes, Sapatas e Muros. Os resultados simplificados destinam-se a estudo e pré-dimensionamento; as verificações regulamentares completas serão integradas por fases.
+Os cálculos apresentados destinam-se a apoio, estudo e pré-dimensionamento; os resultados devem ser validados no contexto técnico e regulamentar aplicável.
