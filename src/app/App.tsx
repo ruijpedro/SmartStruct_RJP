@@ -5,14 +5,19 @@ import { Topbar } from '../ui/Topbar'
 import { DashboardPage } from '../modules/dashboard/DashboardPage'
 import { BeamsPage } from '../modules/structures/beams/BeamsPage'
 import { RoadsPage } from '../modules/roads/RoadsPage'
+import { ContainmentPage } from '../modules/containment/ContainmentPage'
+import { SoilNailsPage, AnchorsPage, ShotcretePage, DrainageSystemsPage } from '../modules/containment/StabilizationPages'
+import { EarthPressurePage } from '../modules/geotechnics/EarthPressurePage'
+import { HydraulicsPage } from '../modules/hydraulics/HydraulicsPage'
 import { FramesPage, TrussesPage, ColumnsPage, SlabsPage, FoundationsPage, WallsPage, CombinationsPage } from '../modules/structures/basic/StructuralPages'
+import { GeotechnicsPage, SptPage, CptPage, BearingCapacityPage, SettlementsPage, SlopesPage } from '../modules/geotechnics/GeotechnicalPages'
 
 function Planned({ title }: { title: string }) {
-  return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Na V27 limpa só entram componentes reais e compiláveis. Este módulo será migrado numa fase própria, com WebApp e APK validadas antes de avançar.</p></section></div>
+  return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
 }
 
 const titles: Partial<Record<ModuleId, string>> = {
-  frames: 'Pórticos', trusses: 'Treliças', combinations: 'Combinações', columns: 'Pilares', slabs: 'Lajes', foundations: 'Fundações', walls: 'Contenção', geotechnics: 'Solos e Ensaios', slopes: 'Taludes', hydraulics: 'Hidráulica e Drenagem', cycleways: 'Ciclovias', roundabouts: 'Rotundas', library: 'Biblioteca Técnica', tools: 'Ferramentas', settings: 'Configurações'
+  library: 'Biblioteca Técnica', tools: 'Ferramentas', settings: 'Configurações'
 }
 
 export default function App() {
@@ -22,6 +27,7 @@ export default function App() {
   if (active === 'dashboard') content = <DashboardPage onOpen={setActive}/>
   if (active === 'beams') content = <BeamsPage/>
   if (active === 'roads') content = <RoadsPage/>
+  if (active === 'hydraulics') content = <HydraulicsPage/>
   if (active === 'frames') content = <FramesPage/>
   if (active === 'trusses') content = <TrussesPage/>
   if (active === 'combinations') content = <CombinationsPage/>
@@ -29,5 +35,17 @@ export default function App() {
   if (active === 'slabs') content = <SlabsPage/>
   if (active === 'foundations') content = <FoundationsPage/>
   if (active === 'walls') content = <WallsPage/>
+  if (active === 'containment') content = <ContainmentPage/>
+  if (active === 'soilnails') content = <SoilNailsPage/>
+  if (active === 'anchors') content = <AnchorsPage/>
+  if (active === 'shotcrete') content = <ShotcretePage/>
+  if (active === 'drainage') content = <DrainageSystemsPage/>
+  if (active === 'geotechnics') content = <GeotechnicsPage/>
+  if (active === 'spt') content = <SptPage/>
+  if (active === 'cpt') content = <CptPage/>
+  if (active === 'bearing') content = <BearingCapacityPage/>
+  if (active === 'settlements') content = <SettlementsPage/>
+  if (active === 'earthpressure') content = <EarthPressurePage/>
+  if (active === 'slopes') content = <SlopesPage/>
   return <div className="appShell"><Sidebar active={active} onSelect={setActive} open={menuOpen} onClose={() => setMenuOpen(false)}/><div className="mainShell"><Topbar onMenu={() => setMenuOpen(true)}/><main>{content}</main></div>{menuOpen && <button className="overlay" onClick={() => setMenuOpen(false)} aria-label="Fechar menu"/>}</div>
 }
