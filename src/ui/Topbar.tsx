@@ -1,3 +1,4 @@
+import React from 'react'
 export function Topbar({ onMenu }: { onMenu: () => void }) {
   return <header className="topbar">
     <button className="menuButton" onClick={onMenu} aria-label="Abrir menu">☰</button>

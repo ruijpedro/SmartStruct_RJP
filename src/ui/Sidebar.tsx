@@ -1,3 +1,4 @@
+import React from 'react'
 import { modules } from '../app/modules'
 import type { ModuleId } from '../app/types'
 import { Icon } from './Icon'

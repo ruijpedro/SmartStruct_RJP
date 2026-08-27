@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState } from 'react'
 import type { ModuleId } from './types'
 import { Sidebar } from '../ui/Sidebar'
