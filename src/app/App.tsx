@@ -21,6 +21,11 @@ import { SlopesProPage } from '../modules/slopesPro'
 import { HydraulicsProPage } from '../modules/hydraulicsPro'
 import { RoadsProPage } from '../modules/roadsPro'
 import { StabilizationProPage } from '../modules/stabilizationPro'
+import { FoundationsProPage } from '../modules/foundationsPro'
+import { PavementsProPage } from '../modules/pavementsPro'
+import { AnchoredWallsProPage } from '../modules/anchoredWallsPro'
+import { ProjectsPage } from '../modules/projectsPro'
+import { ReportPreviewPage } from '../modules/reportsPro'
 
 function Planned({ title }: { title: string }) {
   return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
@@ -43,7 +48,7 @@ export default function App() {
   if (active === 'combinations') content = <CombinationsPage/>
   if (active === 'columns') content = <ColumnsProPage/>
   if (active === 'slabs') content = <SlabsProPage/>
-  if (active === 'foundations') content = <FoundationsPage/>
+  if (active === 'foundations') content = <FoundationsProPage/>
   if (active === 'walls') content = <WallsPage/>
   if (active === 'containment') content = <ContainmentPage/>
   if (active === 'soilnails') content = <SoilNailsPage/>
