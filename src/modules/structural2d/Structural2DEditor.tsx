@@ -118,10 +118,16 @@ export default function Structural2DEditor(){
     <section className="panel">
       <h3>Cargas aplicadas</h3>
       <div className="member-table">
-        {model.loads.map(l=><div key={l.id}><b>#{l.id}</b><span>{l.kind}</span><span>{'node' in l?`Nó ${l.node}`:`Barra ${l.member}`}</span><span>{describeLoad(l)}</span></div>)}
+        {model.loads.map(l=><div key={l.id}><b>#{l.id}</b><span>{l.kind}</span><span>{loadTarget(l)}</span><span>{describeLoad(l)}</span></div>)}
       </div>
     </section>
   </div>
+}
+
+
+
+function loadTarget(l:StructuralLoad){
+  return 'node' in l ? `Nó ${l.node}` : `Barra ${l.member}`
 }
 
 function describeLoad(l:StructuralLoad){
@@ -184,7 +190,8 @@ function LoadGraphic({load,model,P}:{load:StructuralLoad,model:Model2D,P:(n:Node
     const n=model.nodes.find(x=>x.id===load.node); if(!n)return null; const p=P(n)
     return <path d={`M ${p.x-25} ${p.y-25} A 28 28 0 1 1 ${p.x+23} ${p.y-26}`} fill="none" stroke="#a78bfa" strokeWidth="4"/>
   }
-  const e=model.members.find(x=>x.id===load.member); if(!e)return null
+  if(!('member' in load))return null
+      const e=model.members.find(x=>x.id===load.member); if(!e)return null
   const a=P(model.nodes.find(n=>n.id===e.a)!),b=P(model.nodes.find(n=>n.id===e.b)!)
   const mx=(a.x+b.x)/2,my=(a.y+b.y)/2
   if(load.kind==='point')return <g><line x1={mx} y1={my-60} x2={mx} y2={my-12} stroke="#ef4444" strokeWidth="4"/><polygon points={`${mx-7},${my-22} ${mx+7},${my-22} ${mx},${my-7}`} fill="#ef4444"/></g>
