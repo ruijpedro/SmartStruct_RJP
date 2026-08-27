@@ -69,5 +69,8 @@ export default function App() {
   if (active === 'settlements') content = <SettlementsPage/>
   if (active === 'earthpressure') content = <EarthPressurePage/>
   if (active === 'slopes') content = <SlopesProPage/>
+  if (active === 'library') content = <OnlineLibraryPage/>
+  if (active === 'tools') content = <ToolsPage/>
+  if (active === 'settings') content = <SettingsPage/>
   return <div className="appShell"><Sidebar active={active} onSelect={setActive} open={menuOpen} onClose={() => setMenuOpen(false)}/><div className="mainShell"><Topbar onMenu={() => setMenuOpen(true)}/><main>{content}</main></div>{menuOpen && <button className="overlay" onClick={() => setMenuOpen(false)} aria-label="Fechar menu"/>}</div>
 }
