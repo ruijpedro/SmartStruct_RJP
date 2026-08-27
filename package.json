@@ -1,7 +1,7 @@
 {
   "name": "smartstruct-rjp-v31",
   "private": true,
-  "version": "41.2.0",
+  "version": "41.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
