@@ -31,7 +31,7 @@ function applyPreset(n:FrameNode,p:SupportPreset):FrameNode{
   if(p==='roller-y')return {...n,fixX:true,fixY:false,fixR:false}
   return {...n,fixX:false,fixY:false,fixR:false}
 }
-const N=({v}:{v:number})=>Number.isFinite(v)?v:0
+const N=(v:number)=>Number.isFinite(v)?v:0
 
 export default function Frame2DProPage(){
   const[model,setModel]=useState<FrameModel>(initial)
