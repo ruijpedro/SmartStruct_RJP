@@ -25,7 +25,7 @@ jobs:
       - name: Upload downloadable WebApp
         uses: actions/upload-artifact@v4
         with:
-          name: SmartStruct_RJP_V27_WebApp
+          name: SmartStruct_RJP_V31_WebApp
           path: dist
       - name: Configure Pages
         uses: actions/configure-pages@v5
