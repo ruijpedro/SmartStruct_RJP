@@ -22,6 +22,12 @@ jobs:
           fi
       - name: Sync Capacitor
         run: npx cap sync android
+      - name: Apply SmartStruct Android icon
+        run: |
+          echo "Applying SmartStruct_RJP launcher icon..."
+          cp -R android-icon-res/. android/app/src/main/res/
+          test -f android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          test -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -32,5 +38,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v6
         with:
-          name: SmartStruct_RJP_V31_debug_APK
+          name: SmartStruct_RJP_V52_debug_APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
