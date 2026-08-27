@@ -104,7 +104,7 @@ export default function Frame2DProPage(){
 }
 
 function Field({l,v,s,u}:{l:string,v:number,s:(n:number)=>void,u?:string}){
- return <label className="field"><span>{l}{u?` (${u})`:''}</span><input type="number" step="any" value={v} onChange={e=>s(N({v:+e.target.value}).v)}/></label>
+ return <label className="field"><span>{l}{u?` (${u})`:''}</span><input type="number" step="any" value={v} onChange={e=>s(N(+e.target.value))}/></label>
 }
 
 function FrameSvg({model,result,scale,selectedNode,selectedElement,setNode,setElement}:{model:FrameModel,result:any,scale:number,selectedNode:number,selectedElement:number,setNode:(n:number)=>void,setElement:(n:number)=>void}){
