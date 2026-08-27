@@ -27,6 +27,7 @@ import { PavementsProPage } from '../modules/pavementsPro'
 import { AnchoredWallsProPage } from '../modules/anchoredWallsPro'
 import { ProjectsPage } from '../modules/projectsPro'
 import { ReportPreviewPage } from '../modules/reportsPro'
+import { Frame2DProPage } from '../modules/frame2dPro'
 
 function Planned({ title }: { title: string }) {
   return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
@@ -44,7 +45,7 @@ export default function App() {
   if (active === 'beams') content = <BeamsProPage/>
   if (active === 'roads') content = <RoadsProPage/>
   if (active === 'hydraulics') content = <HydraulicsProPage/>
-  if (active === 'frames') content = <Structural2DEditor/>
+  if (active === 'frames') content = <Frame2DProPage/>
   if (active === 'trusses') content = <TrussesProPage/>
   if (active === 'combinations') content = <CombinationsPage/>
   if (active === 'columns') content = <ColumnsProPage/>
