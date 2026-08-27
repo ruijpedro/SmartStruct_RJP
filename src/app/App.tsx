@@ -11,6 +11,11 @@ import { EarthPressurePage } from '../modules/geotechnics/EarthPressurePage'
 import { HydraulicsPage } from '../modules/hydraulics/HydraulicsPage'
 import { FramesPage, TrussesPage, ColumnsPage, SlabsPage, FoundationsPage, WallsPage, CombinationsPage } from '../modules/structures/basic/StructuralPages'
 import { GeotechnicsPage, SptPage, CptPage, BearingCapacityPage, SettlementsPage, SlopesPage } from '../modules/geotechnics/GeotechnicalPages'
+import { BeamsProPage } from '../modules/beamsPro'
+import { ColumnsProPage } from '../modules/columnsPro'
+import { SlabsProPage } from '../modules/slabsPro'
+import { TrussesProPage } from '../modules/trussesPro'
+import { Structural2DEditor } from '../modules/structural2d'
 
 function Planned({ title }: { title: string }) {
   return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
@@ -25,14 +30,14 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   let content = <Planned title={titles[active] ?? 'Módulo'} />
   if (active === 'dashboard') content = <DashboardPage onOpen={setActive}/>
-  if (active === 'beams') content = <BeamsPage/>
+  if (active === 'beams') content = <BeamsProPage/>
   if (active === 'roads') content = <RoadsPage/>
   if (active === 'hydraulics') content = <HydraulicsPage/>
-  if (active === 'frames') content = <FramesPage/>
-  if (active === 'trusses') content = <TrussesPage/>
+  if (active === 'frames') content = <Structural2DEditor/>
+  if (active === 'trusses') content = <TrussesProPage/>
   if (active === 'combinations') content = <CombinationsPage/>
-  if (active === 'columns') content = <ColumnsPage/>
-  if (active === 'slabs') content = <SlabsPage/>
+  if (active === 'columns') content = <ColumnsProPage/>
+  if (active === 'slabs') content = <SlabsProPage/>
   if (active === 'foundations') content = <FoundationsPage/>
   if (active === 'walls') content = <WallsPage/>
   if (active === 'containment') content = <ContainmentPage/>
