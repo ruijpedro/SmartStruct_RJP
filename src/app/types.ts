@@ -10,6 +10,7 @@ export type ModuleId =
   | 'integrated'
   | 'framefoundation'
   | 'buildingmodel'
+  | 'structuralproject'
   | 'walls'
   | 'containment'
   | 'soilnails'

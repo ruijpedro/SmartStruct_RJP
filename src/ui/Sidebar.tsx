@@ -14,7 +14,7 @@ interface Props {
 export function Sidebar({ active, onSelect, open, onClose }: Props) {
   const groups = Array.from(new Set(modules.map((m) => m.group)))
   return <aside className={`sidebar ${open ? 'sidebar--open' : ''}`}>
-    <div className="brand"><div className="brandMark">S</div><div><strong>SmartStruct_RJP</strong><span>V31</span></div></div>
+    <div className="brand"><BrandMark/></div>
     <nav>
       {groups.map((group) => <section key={group} className="navGroup">
         {group !== 'Geral' && <div className="navGroupTitle">{group}</div>}
