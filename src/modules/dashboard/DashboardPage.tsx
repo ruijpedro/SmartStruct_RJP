@@ -26,7 +26,7 @@ const main: { id: ModuleId; title: string; body: string }[] = [
 
 export function DashboardPage({ onOpen }: { onOpen: (id: ModuleId) => void }) {
   return <div className="page dashboardPage">
-    <div className="pageTitle"><h1>Dashboard</h1><span>Estruturas + Geotecnia + Contenção + Viárias V31</span></div>
+    <div className="pageTitle"><h1>Dashboard</h1><span>Estruturas + Geotecnia + Contenção + Infraestruturas</span></div>
     <div className="quickGrid">{quick.map((q) => <button key={q.id} className={`quickCard ${q.tone}`} onClick={() => onOpen(q.id)}><Icon id={q.id} size={40}/><strong>{q.label}</strong><span>{q.code}</span></button>)}</div>
     <section className="panel"><div className="panelTitle">Módulos principais</div><div className="moduleGrid">{main.map((m) => <button className="moduleCard" key={m.title} onClick={() => onOpen(m.id)}><div className="moduleIcon"><Icon id={m.id} size={34}/></div><div><strong>{m.title}</strong><span>{m.body}</span></div><b>›</b></button>)}</div></section>
   </div>

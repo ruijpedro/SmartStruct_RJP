@@ -23,6 +23,7 @@ function build(i:TrussInput){
  const add=(a:number,b:number)=>bars.push({id:id++,a,b,A:i.A,E:i.E*1e9})
  for(let k=0;k<n;k++){add(k+1,k+2);add(n+2+k,n+3+k)}
  add(1,n+2);add(n+1,2*n+2)
+ for(let k=1;k<n;k++)add(k+1,n+2+k)
  if(i.type==='warren'){for(let k=0;k<n;k++)add(k%2===0?k+1:n+2+k,k%2===0?n+3+k:k+2)}
  else{
   for(let k=0;k<n;k++){const towardCenter=i.type==='pratt';const left=k<n/2
