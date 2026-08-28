@@ -1,23 +1,14 @@
 import {ec2Fcd,ec2Fyd} from '../../engineering/structuralMath'
-export type ColumnInput={N:number;Mx:number;My:number;b:number;h:number;L:number;fck:number;fyk:number;k:number}
+export type EndCondition='pinned'|'fixed-pinned'|'fixed-fixed'|'cantilever'|'custom'
+export type ColumnInput={N:number;Mx:number;My:number;b:number;h:number;L:number;fck:number;fyk:number;E:number;cover:number;phi:number;k:number;end:EndCondition}
+export function endK(end:EndCondition,custom:number){if(end==='pinned')return 1;if(end==='fixed-pinned')return .70;if(end==='fixed-fixed')return .50;if(end==='cantilever')return 2;return Math.max(.1,custom)}
 export function solveColumn(i:ColumnInput){
-  const A=i.b*i.h, Ix=i.b*Math.pow(i.h,3)/12, Iy=i.h*Math.pow(i.b,3)/12
-  const rx=Math.sqrt(Ix/A), ry=Math.sqrt(Iy/A)
-  const le=i.k*i.L
-  const lambdaX=le/Math.max(rx,1e-9), lambdaY=le/Math.max(ry,1e-9), slender=Math.max(lambdaX,lambdaY)
-  const sigN=i.N/Math.max(A,1e-9)/1000
-  const sx=Math.abs(i.Mx)*6/(Math.max(i.b*i.h*i.h,1e-9))*0.001
-  const sy=Math.abs(i.My)*6/(Math.max(i.h*i.b*i.b,1e-9))*0.001
-  const sigMax=sigN+sx+sy
-  const fcd=ec2Fcd(i.fck),util=sigMax/Math.max(fcd,1e-9)
-  const fyd=ec2Fyd(i.fyk)
-  const AsMin=.002*A*1e6
-  const AsMax=.04*A*1e6
-  const AsReq=Math.min(AsMax,Math.max(AsMin,(i.N*1000)/(0.87*fyd)*0.15))
-  const secondOrderFactor=slender>70?1.15:slender>50?1.08:1.0
-  const Mx2=i.Mx*secondOrderFactor, My2=i.My*secondOrderFactor
-  const interaction=Math.abs(i.N)/(Math.max(A*fcd*1000,1e-9)) +
-    Math.abs(Mx2)/(Math.max(fcd*i.b*i.h*i.h/6*1000,1e-9)) +
-    Math.abs(My2)/(Math.max(fcd*i.h*i.b*i.b/6*1000,1e-9))
-  return {A,Ix,Iy,rx,ry,le,lambdaX,lambdaY,slender,sigN,sigMax,fcd,util,AsMin,AsMax,AsReq,secondOrderFactor,Mx2,My2,interaction}
+ const b=Math.max(i.b,.05),h=Math.max(i.h,.05),A=b*h,Ix=b*Math.pow(h,3)/12,Iy=h*Math.pow(b,3)/12,rx=Math.sqrt(Ix/A),ry=Math.sqrt(Iy/A),kEff=endK(i.end,i.k),le=kEff*Math.max(i.L,.1)
+ const lambdaX=le/rx,lambdaY=le/ry,E=Math.max(i.E,1)*1e6,NcrX=Math.PI*Math.PI*E*Ix/(le*le),NcrY=Math.PI*Math.PI*E*Iy/(le*le),ncr=Math.min(NcrX,NcrY)
+ const eta=Math.min(.90,Math.max(0,i.N/Math.max(ncr,1e-9))),amp=1/(1-eta),Mx2=i.Mx*amp,My2=i.My*amp,fcd=ec2Fcd(i.fck),fyd=ec2Fyd(i.fyk)
+ const sigN=i.N/A/1000,sigMax=sigN+Math.abs(Mx2)*6/(b*h*h)*.001+Math.abs(My2)*6/(h*b*b)*.001,AsMin=.002*A*1e6,AsMax=.04*A*1e6
+ const flexSteel=Math.abs(Mx2)*1e6/Math.max(fyd*.8*h*1000,1)+Math.abs(My2)*1e6/Math.max(fyd*.8*b*1000,1),AsReq=Math.min(AsMax,Math.max(AsMin,flexSteel))
+ const barArea=Math.PI*i.phi*i.phi/4,nBars=Math.max(4,Math.ceil(AsReq/Math.max(barArea,1))),AsProv=nBars*barArea,NRd=A*fcd*1000+AsProv/1e6*fyd*1000
+ const interaction=Math.abs(i.N)/Math.max(NRd,1e-9)+Math.abs(Mx2)/Math.max(fcd*b*h*h/6*1000,1e-9)+Math.abs(My2)/Math.max(fcd*h*b*b/6*1000,1e-9)
+ return {A,kEff,le,lambdaX,lambdaY,NcrX,NcrY,eta,amp,Mx2,My2,sigMax,AsMin,AsMax,AsReq,nBars,AsProv,interaction}
 }

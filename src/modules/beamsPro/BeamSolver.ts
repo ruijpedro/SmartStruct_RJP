@@ -1,52 +1,62 @@
 import {ec2Fyd} from '../../engineering/structuralMath'
 export type SupportType='simply'|'cantilever'|'fixed-fixed'|'propped'
-export type BeamInput={
-  L:number;q:number;P:number;a:number;support:SupportType;
-  b:number;h:number;cover:number;fck:number;fyk:number;E:number
-}
-export function solveBeam(i:BeamInput){
-  const L=Math.max(i.L,0.1), q=i.q||0, P=i.P||0, a=Math.max(0,Math.min(i.a,L))
-  let RA=0,RB=0,Mmax=0,Vmax=0,defl=0,Mleft=0,Mright=0
-  const I=i.b*Math.pow(i.h,3)/12
-  if(i.support==='cantilever'){
-    RA=q*L+P; RB=0; Vmax=Math.abs(RA)
-    Mleft=-(q*L*L/2+P*a); Mmax=Math.abs(Mleft)
-    defl=(q*Math.pow(L,4)/(8*i.E*1e6*I))+(P*Math.pow(a,2)*(3*L-a)/(6*i.E*1e6*I))
-  }else if(i.support==='fixed-fixed'){
-    RA=(q*L+P)/2; RB=RA
-    Mleft=-(q*L*L/12+P*(L-a)*(L-a)*(L+2*a)/(L*L*L))
-    Mright=-(q*L*L/12+P*a*a*(3*L-2*a)/(L*L*L))
-    Vmax=Math.max(Math.abs(RA),Math.abs(RB))
-    Mmax=Math.max(Math.abs(Mleft),Math.abs(Mright),Math.abs(q*L*L/24+P*L/8))
-    defl=(q*Math.pow(L,4)/(384*i.E*1e6*I))*0.4
-  }else if(i.support==='propped'){
-    // aproximação clássica para consola escorada sob q + P
-    RB=3*q*L/8 + P*Math.pow(a,2)*(3*L-a)/(2*Math.pow(L,3))
-    RA=q*L+P-RB
-    Mleft=-(q*L*L/2+P*a-RB*L)
-    Vmax=Math.max(Math.abs(RA),Math.abs(RB))
-    Mmax=Math.max(Math.abs(Mleft),Math.abs(q*L*L/8+P*L/4))
-    defl=0
-  }else{
-    RB=(q*L*(L/2)+P*a)/L; RA=q*L+P-RB
-    Vmax=Math.max(Math.abs(RA),Math.abs(RB))
-    const x=Math.max(0,Math.min(L,RA/Math.max(q,1e-9)))
-    Mmax=Math.abs(RA*x-q*x*x/2)
-    if(P>0){
-      const Mp=RA*a-q*a*a/2
-      if(Math.abs(Mp)>Mmax)Mmax=Math.abs(Mp)
-    }
-    defl=5*q*Math.pow(L,4)/(384*i.E*1e6*I)
-  }
+export type LoadType='point'|'udl'|'moment'
+export type BeamLoad={id:number;type:LoadType;value:number;x1:number;x2?:number}
+export type BeamInput={L:number;support:SupportType;b:number;h:number;cover:number;fck:number;fyk:number;E:number;loads:BeamLoad[]}
+export type Sample={x:number;V:number;M:number}
 
-  const d=Math.max(i.h-i.cover-0.01,0.05), z=0.9*d, fyd=ec2Fyd(i.fyk)
-  const AsReq=Mmax*1e6/Math.max(z*1000*fyd,1e-9)
-  const AsMin=0.0013*i.b*i.h*1e6
-  const As=Math.max(AsReq,AsMin)
-  const shearStress=Vmax*1000/Math.max(i.b*d,1e-9)/1e6
-  const spanDepth=L/Math.max(i.h,1e-9)
-  const deflectionLimit=L/250
-  const deflectionOK=defl<=deflectionLimit
-  const crackControlIndex=As/Math.max(i.b*i.h*1e6,1)
-  return {RA,RB,Mmax,Vmax,defl,As,AsReq,AsMin,d,z,Mleft,Mright,shearStress,spanDepth,deflectionLimit,deflectionOK,crackControlIndex}
+export function solveBeam(i:BeamInput){
+ const L=Math.max(i.L,.1), loads=i.loads||[], I=i.b*Math.pow(i.h,3)/12
+ let totalF=0,totalMomentA=0,appliedM=0
+ for(const l of loads){
+  if(l.type==='point'){totalF+=l.value;totalMomentA+=l.value*Math.max(0,Math.min(L,l.x1))}
+  if(l.type==='udl'){const a=Math.max(0,Math.min(L,l.x1)),b=Math.max(a,Math.min(L,l.x2??L)),W=l.value*(b-a);totalF+=W;totalMomentA+=W*(a+b)/2}
+  if(l.type==='moment')appliedM+=l.value
+ }
+ let RA=0,RB=0,Mleft=0,Mright=0
+ if(i.support==='cantilever'){RA=totalF;Mleft=-(totalMomentA+appliedM)}
+ else if(i.support==='simply'){RB=(totalMomentA+appliedM)/L;RA=totalF-RB}
+ else if(i.support==='propped'){
+   // force method: redundant at B from free-end deflection of cantilever
+   let delta=0
+   for(const l of loads){
+    if(l.type==='point'){const a=Math.max(0,Math.min(L,l.x1));delta+=l.value*a*a*(3*L-a)/(6*i.E*1e6*I)}
+    if(l.type==='udl'){
+      const a=Math.max(0,Math.min(L,l.x1)),b=Math.max(a,Math.min(L,l.x2??L))
+      const n=80,dx=(b-a)/n
+      for(let k=0;k<n;k++){const x=a+(k+.5)*dx;delta+=(l.value*dx)*x*x*(3*L-x)/(6*i.E*1e6*I)}
+    }
+    if(l.type==='moment'){const a=Math.max(0,Math.min(L,l.x1));delta+=l.value*a*(2*L-a)/(2*i.E*1e6*I)}
+   }
+   RB=delta*3*i.E*1e6*I/Math.pow(L,3);RA=totalF-RB;Mleft=-(totalMomentA+appliedM-RB*L)
+ }else{
+   // fixed-fixed via numerical stiffness-compatible fixed end reactions for common loads
+   let ma=0,mb=0,ra=0,rb=0
+   for(const l of loads){
+    if(l.type==='udl'){
+      const a=Math.max(0,Math.min(L,l.x1)),b=Math.max(a,Math.min(L,l.x2??L)),n=100,dx=(b-a)/n
+      for(let k=0;k<n;k++){const x=a+(k+.5)*dx,P=l.value*dx,aa=x,bb=L-x
+       ma-=P*aa*bb*bb/(L*L);mb-=P*aa*aa*bb/(L*L)
+      }
+    }else if(l.type==='point'){const aa=Math.max(0,Math.min(L,l.x1)),bb=L-aa;ma-=l.value*aa*bb*bb/(L*L);mb-=l.value*aa*aa*bb/(L*L)}
+    else {const x=Math.max(0,Math.min(L,l.x1)),t=x/L;ma-=l.value*(1-4*t+3*t*t);mb-=l.value*(-2*t+3*t*t)}
+   }
+   Mleft=ma;Mright=mb;RB=(totalMomentA+appliedM+Mleft-Mright)/L;RA=totalF-RB
+ }
+ const samples:Sample[]=[]
+ for(let k=0;k<=120;k++){
+  const x=L*k/120;let V=RA,M=Mleft+RA*x
+  for(const l of loads){
+   if(l.type==='point'&&x>=l.x1){V-=l.value;M-=l.value*(x-l.x1)}
+   if(l.type==='udl'){const a=Math.max(0,l.x1),b=Math.min(L,l.x2??L),z=Math.max(0,Math.min(x,b)-a);if(z>0){V-=l.value*z;M-=l.value*z*(x-(a+z/2))}}
+   if(l.type==='moment'&&x>=l.x1)M-=l.value
+  }
+  samples.push({x,V,M})
+ }
+ const Vmax=Math.max(...samples.map(s=>Math.abs(s.V))), Mmax=Math.max(...samples.map(s=>Math.abs(s.M)))
+ const maxM=samples.reduce((a,b)=>Math.abs(b.M)>Math.abs(a.M)?b:a,samples[0])
+ const d=Math.max(i.h-i.cover-.01,.05),z=.9*d,fyd=ec2Fyd(i.fyk)
+ const AsReq=Mmax*1e6/Math.max(z*1000*fyd,1e-9),AsMin=.0013*i.b*i.h*1e6,As=Math.max(AsReq,AsMin)
+ const deflectionLimit=L/250
+ return {RA,RB,Mleft,Mright,Vmax,Mmax,maxM,samples,AsReq,AsMin,As,d,z,spanDepth:L/i.h,deflectionLimit}
 }
