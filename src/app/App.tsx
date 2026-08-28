@@ -33,6 +33,9 @@ import { TechnicalLibraryPage } from '../modules/technicalLibrary'
 import { ToolsPage } from '../modules/toolsPro'
 import { SettingsPage } from '../modules/settingsPro'
 import { OnlineLibraryPage } from '../modules/onlineLibrary'
+import IntegratedStructurePage from '../modules/integratedStructure/IntegratedStructurePage'
+import FrameFoundationPage from '../modules/frameFoundation/FrameFoundationPage'
+import BuildingModelPage from '../modules/buildingModel/BuildingModelPage'
 
 function Planned({ title }: { title: string }) {
   return <div className="page"><div className="pageTitle"><h1>{title}</h1><span>Em preparação</span></div><section className="panel planned"><h2>Módulo ainda não integrado</h2><p>Este módulo será acrescentado numa fase própria, mantendo WebApp e APK compiláveis antes de avançar.</p></section></div>
@@ -56,6 +59,9 @@ export default function App() {
   if (active === 'columns') content = <ColumnsProPage/>
   if (active === 'slabs') content = <SlabsProPage/>
   if (active === 'foundations') content = <FoundationsProPage/>
+  if (active === 'integrated') content = <IntegratedStructurePage/>
+  if (active === 'framefoundation') content = <FrameFoundationPage/>
+  if (active === 'buildingmodel') content = <BuildingModelPage/>
   if (active === 'walls') content = <WallsPage/>
   if (active === 'containment') content = <ContainmentPage/>
   if (active === 'soilnails') content = <SoilNailsPage/>
